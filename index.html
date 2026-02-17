@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Forsbo Windows 97 - 97 Corp</title>
+    <style>
+        :root {
+            --win-gray: #c0c0c0;
+            --win-blue: #000080;
+            --win-teal: #008080;
+        }
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: "Tahoma", sans-serif;
+            background-color: var(--win-teal);
+            overflow: hidden;
+        }
+
+        /* LOGIN SCREEN */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--win-teal);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000;
+        }
+        .window {
+            background: var(--win-gray);
+            border: 2px outset #fff;
+            width: 350px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+        .title-bar {
+            background: var(--win-blue); color: white;
+            padding: 3px 5px; font-weight: bold; font-size: 13px;
+        }
+        .login-content { padding: 20px; }
+
+        /* DESKTOP */
+        #desktop {
+            display: none; height: calc(100% - 30px);
+            padding: 20px;
+        }
+        .icon {
+            width: 70px; text-align: center; color: white;
+            font-size: 11px; cursor: pointer; margin-bottom: 20px;
+        }
+        .icon-img {
+            width: 32px; height: 32px; background: #bbb;
+            margin: 0 auto 5px; border: 1px solid #000;
+        }
+
+        /* TASKBAR */
+        #taskbar {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            height: 30px; background: var(--win-gray);
+            border-top: 2px outset #fff;
+            display: flex; align-items: center; padding: 2px;
+            z-index: 500;
+        }
+        #start-btn {
+            font-weight: bold; height: 24px; display: flex;
+            align-items: center; padding: 0 10px; border: 2px outset #fff;
+            cursor: pointer;
+        }
+        #start-btn:active { border: 2px inset #fff; }
+        .clock {
+            margin-left: auto; padding: 0 10px;
+            border: 2px inset #fff; font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="login-screen">
+    <div class="window">
+        <div class="title-bar">97 Corp Security Login</div>
+        <div class="login-content">
+            <h2 style="margin-top:0;">Windows 97</h2>
+            <p style="color: #800000; font-weight: bold;">PROPERTY OF 97 CORP</p>
+            <label>Password:</label><br>
+            <input type="password" style="width: 100%; margin-bottom: 10px;">
+            <button onclick="login()" style="width: 60px; float: right;">OK</button>
+        </div>
+    </div>
+</div>
+
+<div id="desktop">
+    <div class="icon" onclick="alert('97 Corp Computer Access Denied')">
+        <div class="icon-img"></div>
+        My Computer
+    </div>
+    <div class="icon" onclick="alert('Recycle Bin is Empty')">
+        <div class="icon-img"></div>
+        Recycle Bin
+    </div>
+</div>
+
+<div id="taskbar">
+    <div id="start-btn" onclick="toggleStart()">Start</div>
+    <div style="margin-left: 10px; font-size: 11px;">97 Corp Edition</div>
+    <div class="clock" id="clock">12:00</div>
+</div>
+
+<script>
+    function login() {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('desktop').style.display = 'block';
+        updateClock();
+    }
+    
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.getHours() + ":" + String(now.getMinutes()).padStart(2, '0');
+    }
+    setInterval(updateClock, 1000);
+
+    function toggleStart() {
+        alert("97 Corp Start Menu - Alpha 5.5");
+    }
+</script>
+
+</body>
+</html>
