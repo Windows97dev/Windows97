@@ -2,127 +2,192 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <title>Windows 97 - 97 Corp Official</title>
+    <title>Forsbo Windows 97</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        :root { --win-gray: #c0c0c0; --win-blue: #000080; --win-teal: #008080; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: "Tahoma", sans-serif; background-color: var(--win-teal); overflow: hidden; }
-        
-        /* GEMENSAMMA FÖNSTER-STILAR */
-        .window { background: var(--win-gray); border: 2px outset #fff; box-shadow: 2px 2px 10px rgba(0,0,0,0.5); position: absolute; }
-        .title-bar { background: var(--win-blue); color: white; padding: 3px 6px; font-weight: bold; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .content { padding: 15px; }
-        button { background: var(--win-gray); border: 2px outset #fff; padding: 4px 12px; cursor: pointer; font-family: "Tahoma", sans-serif; }
-        button:active { border: 2px inset #fff; }
-
-        /* LOGIN SKÄRM (Ligger överst tills man loggar in) */
-        #login-screen { position: fixed; inset: 0; background: var(--win-teal); display: flex; justify-content: center; align-items: center; z-index: 5000; }
-
-        /* DESKTOP IKONER */
-        .desktop-icons { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
-        .icon { width: 70px; text-align: center; color: white; font-size: 11px; cursor: pointer; text-shadow: 1px 1px #000; }
-        .icon-box { width: 32px; height: 32px; background: #c0c0c0; margin: 0 auto 5px; border: 2px outset #fff; }
-
-        /* WELCOME WINDOW (Windows 98 Style) */
-        #welcome-window { 
-            display: none; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            width: 480px; z-index: 3000; background: white; 
+        :root { 
+            --bg-teal: #008080; 
+            --win-gray: #c0c0c0; 
+            --win-blue: #000080; 
+            --cursor-default: url('https://win98icons.alexmeub.com/cursors/arrow.png'), default;
+            --cursor-pointer: url('https://win98icons.alexmeub.com/cursors/pointer.png'), pointer;
         }
-        .welcome-body { display: flex; background: white; min-height: 250px; }
-        .welcome-sidebar { width: 140px; border-right: 1px solid #888; padding: 20px; text-align: center; }
-        .welcome-main { padding: 30px; flex: 1; }
-        .welcome-footer { background: var(--win-gray); padding: 10px; display: flex; justify-content: space-between; border-top: 1px solid #888; }
 
-        /* TASKBAR & START MENU */
-        #taskbar { position: fixed; bottom: 0; width: 100%; height: 30px; background: var(--win-gray); border-top: 2px outset #fff; display: flex; align-items: center; z-index: 4000; }
-        #start-btn { font-weight: bold; height: 22px; padding: 0 8px; border: 2px outset #fff; margin-left: 2px; display: flex; align-items: center; cursor: pointer; }
-        #start-menu { display: none; position: fixed; bottom: 30px; left: 2px; width: 220px; background: var(--win-gray); border: 2px outset #fff; z-index: 4100; }
-        .start-item { padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #aaa; font-size: 13px; }
-        .start-item:hover { background: var(--win-blue); color: white; }
+        /* Tvingar den gamla pixel-stilen på ALLT */
+        * { 
+            box-sizing: border-box; 
+            font-family: 'Press Start 2P', cursive !important; 
+            font-size: 8px !important; 
+            image-rendering: pixelated;
+            -webkit-font-smoothing: none;
+            cursor: var(--cursor-default);
+            color: black;
+        }
+
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg-teal); overflow: hidden; }
+        .hidden { display: none !important; }
+
+        /* LOGIN WINDOW (Matchar din bild men med rätt text) */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-teal); display: flex; align-items: center; justify-content: center; z-index: 9999;
+        }
+        .login-window {
+            width: 400px; background: var(--win-gray);
+            border: 4px outset #fff; padding: 2px;
+        }
+        .title-bar {
+            background: var(--win-blue); color: white !important; padding: 5px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .title-bar span { color: white !important; }
+        .banner {
+            background: linear-gradient(135deg, #ffcc33 0%, #ff6600 100%);
+            height: 60px; border: 2px inset #808080; margin: 4px;
+            display: flex; align-items: center; padding-left: 15px;
+        }
+        .banner-text {
+            font-size: 16px !important; font-weight: bold; font-style: italic;
+            text-shadow: 2px 2px #fff;
+        }
+        .user-box {
+            background: #fff; border: 2px inset #808080; height: 80px;
+            margin: 10px 0; overflow-y: scroll;
+        }
+        .user-item { padding: 5px; background: var(--win-blue); color: #fff !important; }
+        input { width: 100%; border: 2px inset #fff; background: #fff; margin-top: 5px; height: 25px; outline: none; }
+        .button-row { display: flex; justify-content: flex-end; gap: 8px; padding: 15px 5px; }
+        
+        button {
+            background: var(--win-gray); border: 3px outset #fff;
+            padding: 5px; min-width: 80px; cursor: var(--cursor-pointer);
+        }
+        button:active { border: 3px inset #fff; }
+
+        /* GUI */
+        #desktop-area { width: 100%; height: calc(100% - 30px); display: none; padding: 20px; }
+        .icon { width: 80px; text-align: center; cursor: var(--cursor-pointer); margin-bottom: 20px; }
+        .icon img { width: 32px; height: 32px; display: block; margin: 0 auto 5px auto; pointer-events: none; }
+        .icon span { color: white !important; text-shadow: 2px 2px #000; line-height: 1.5; }
+
+        /* TASKBAR & START */
+        #taskbar {
+            position: fixed; bottom: 0; width: 100%; height: 30px;
+            background: var(--win-gray); border-top: 3px solid #fff;
+            display: none; align-items: center; padding: 3px; z-index: 10000;
+        }
+        #start-btn {
+            height: 24px; border: 3px outset #fff; font-weight: bold;
+            display: flex; align-items: center; padding: 0 8px; gap: 5px;
+        }
+        #start-menu {
+            position: absolute; bottom: 28px; left: 2px; width: 220px;
+            background: var(--win-gray); border: 3px outset #fff;
+            display: none; flex-direction: row; box-shadow: 3px 3px 0px #000;
+        }
+        .start-sidebar {
+            background: linear-gradient(0deg, #000080 0%, #1084d0 100%);
+            width: 30px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px;
+        }
+        .start-sidebar span {
+            transform: rotate(-90deg); color: #fff !important; 
+            white-space: nowrap; width: 150px; font-size: 10px !important;
+        }
+        .start-items-box { flex: 1; padding: 3px; }
+        .start-item {
+            padding: 8px; display: flex; align-items: center; gap: 10px;
+            cursor: var(--cursor-pointer);
+        }
+        .start-item:hover { background: var(--win-blue); }
+        .start-item:hover * { color: white !important; }
+        .start-item img { width: 16px; height: 16px; }
+        .divider { height: 2px; background: #808080; border-bottom: 2px solid #fff; margin: 5px; }
+        #clock { margin-left: auto; border: 3px inset #fff; padding: 3px 10px; }
     </style>
 </head>
 <body>
 
+<audio id="snd-startup" src="https://win98icons.alexmeub.com/sounds/startup.mp3"></audio>
+
 <div id="login-screen">
-    <div class="window" style="width: 300px;">
-        <div class="title-bar"><span>97 Corp - Login</span></div>
-        <div class="content">
-            <p style="font-size: 11px;">Type your password to log on to Windows 97.</p>
-            <input type="password" id="pass" style="width: 100%; border: 2px inset #fff; margin-bottom: 10px;">
-            <div style="text-align: right;">
-                <button onclick="doLogin()">OK</button>
+    <div class="login-window">
+        <div class="title-bar">
+            <span>Enter Password</span>
+            <div style="width:16px; height:16px; background:var(--win-gray); border:2px outset #fff; color:black; text-align:center; line-height:12px;">x</div>
+        </div>
+        <div class="banner">
+            <div class="banner-text">Windows 97</div>
+        </div>
+        <div class="login-content" style="padding:15px;">
+            <div>Select user name:</div>
+            <div class="user-box">
+                <div class="user-item">Admin</div>
             </div>
+            <div style="margin-top:10px;">Password:</div>
+            <input type="password" id="pass">
+        </div>
+        <div class="button-row">
+            <button onclick="login()">Settings</button>
+            <button onclick="login()">New User</button>
+            <button onclick="login()" style="font-weight:bold;">OK</button>
         </div>
     </div>
 </div>
 
-<div id="desktop" style="display:none;">
-    <div class="desktop-icons">
-        <div class="icon" onclick="alert('My Computer - 97 Corp Property')">
-            <div class="icon-box"></div> My Computer
-        </div>
-        <div class="icon" onclick="alert('Recycle Bin is empty.')">
-            <div class="icon-box"></div> Recycle Bin
-        </div>
+<div id="desktop-area">
+    <div class="icon">
+        <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png">
+        <span>My Computer</span>
     </div>
+</div>
 
-    <div id="welcome-window" class="window">
-        <div class="title-bar"><span>Welcome</span><span onclick="closeWelcome()" style="cursor:pointer;">[X]</span></div>
-        <div class="welcome-body">
-            <div class="welcome-sidebar">
-                <div style="font-size: 40px;">💻</div>
-            </div>
-            <div class="welcome-main">
-                <h2 style="color: var(--win-blue); margin-top: 0; font-style: italic;">Welcome</h2>
-                <p style="font-size: 13px; font-weight: bold;">Did you know?</p>
-                <p id="did-you-know-text" style="font-size: 12px;">97 Corp is currently developing the world's most stable OS.</p>
-            </div>
-        </div>
-        <div class="welcome-footer">
-            <label style="font-size: 11px;"><input type="checkbox" checked> Show this on startup</label>
-            <button onclick="closeWelcome()">Close</button>
-        </div>
-    </div>
-
+<div id="taskbar">
+    <button id="start-btn" onclick="toggleStart()">
+        <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" width="16">
+        Start
+    </button>
+    
     <div id="start-menu">
-        <div class="start-item">Programs</div>
-        <div class="start-item">Settings</div>
-        <div class="start-item" onclick="location.reload()">Shut Down...</div>
+        <div class="start-sidebar"><span>Forsbo Windows 97</span></div>
+        <div class="start-items-box">
+            <div class="start-item"><img src="https://win98icons.alexmeub.com/icons/png/world-0.png"> <span>Windows Update</span></div>
+            <div class="divider"></div>
+            <div class="start-item"><img src="https://win98icons.alexmeub.com/icons/png/directory_program_group-0.png"> <span>Programs</span></div>
+            <div class="start-item"><img src="https://win98icons.alexmeub.com/icons/png/directory_favorites-0.png"> <span>Favorites</span></div>
+            <div class="start-item"><img src="https://win98icons.alexmeub.com/icons/png/directory_open_file_mydocs-4.png"> <span>Documents</span></div>
+            <div class="start-item"><img src="https://win98icons.alexmeub.com/icons/png/settings_gear-0.png"> <span>Settings</span></div>
+            <div class="divider"></div>
+            <div class="start-item" onclick="location.reload()"><img src="https://win98icons.alexmeub.com/icons/png/shut_down_normal-0.png"> <span>Shut Down...</span></div>
+        </div>
     </div>
-
-    <div id="taskbar">
-        <div id="start-btn" onclick="toggleStart()">Start</div>
-        <div style="margin-left: 10px; font-size: 11px; font-weight: bold;">97 CORP™</div>
-    </div>
+    <div id="clock">00:00</div>
 </div>
 
 <script>
-    function doLogin() {
+    function login() {
+        document.getElementById('snd-startup').play().catch(()=>{});
         document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('desktop').style.display = 'block';
-        
-        // Öppna Welcome-fönstret automatiskt efter 1 sekund
-        setTimeout(() => {
-            document.getElementById('welcome-window').style.display = 'block';
-            let audio = new Audio('https://www.winhistory.de/more/winstart/mp3/win98.mp3');
-            audio.play().catch(e => console.log("Ljudet blockeras tills man klickat på sidan."));
-        }, 1000);
+        document.getElementById('desktop-area').style.display = 'block';
+        document.getElementById('taskbar').style.display = 'flex';
+        updateClock();
+        setInterval(updateClock, 1000);
     }
 
     function toggleStart() {
-        const menu = document.getElementById('start-menu');
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        const m = document.getElementById('start-menu');
+        m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
     }
 
-    function closeWelcome() {
-        document.getElementById('welcome-window').style.display = 'none';
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     }
-    
-    // Stäng startmeny om man klickar på skrivbordet
-    document.addEventListener('click', function(e) {
-        if (e.target.id !== 'start-btn') {
+
+    window.onclick = function(e) {
+        if (!e.target.closest('#start-btn') && !e.target.closest('#start-menu')) {
             document.getElementById('start-menu').style.display = 'none';
         }
-    });
+    }
 </script>
 
 </body>
