@@ -2,7 +2,7 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <title>Forsbo Windows 97 - 97 Corp</title>
+    <title>Windows 97 - © 97 Corp</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -11,142 +11,159 @@
             --cursor-pointer: url('https://win98icons.alexmeub.com/cursors/pointer.png'), pointer;
         }
         * { box-sizing: border-box; font-family: 'Press Start 2P', cursive !important; font-size: 8px !important; image-rendering: pixelated; cursor: var(--cursor-default); color: black; }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg-teal); overflow: hidden; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: black; overflow: hidden; }
 
-        /* LOGIN */
-        #login-screen { position: fixed; inset: 0; background: var(--bg-teal); display: flex; align-items: center; justify-content: center; z-index: 9999; }
-        .login-window { width: 400px; background: var(--win-gray); border: 4px outset #fff; padding: 2px; }
-        .title-bar { background: var(--win-blue); color: white !important; padding: 5px; display: flex; justify-content: space-between; }
-        .banner { background: linear-gradient(135deg, #ffcc33 0%, #ff6600 100%); height: 60px; border: 2px inset #808080; margin: 4px; display: flex; align-items: center; padding-left: 15px; }
-        .banner-text { font-size: 16px !important; font-weight: bold; font-style: italic; text-shadow: 2px 2px #fff; }
+        /* 1. TERMINAL BOOT */
+        #boot-terminal { position: fixed; inset: 0; background: black; color: white !important; padding: 20px; z-index: 10000; display: block; line-height: 2; }
+        #boot-terminal * { color: white !important; }
 
-        /* WELCOME WINDOW (Windows 98 Style) */
-        #welcome-screen {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 480px; background: white; border: 3px outset #fff; z-index: 5000; box-shadow: 4px 4px 0 #000;
-        }
-        .welcome-content { display: flex; min-height: 220px; }
-        .welcome-sidebar { width: 140px; border-right: 2px solid #c0c0c0; padding: 20px; text-align: center; }
-        .welcome-main { flex: 1; padding: 25px; background: #fff; }
-        .welcome-footer { background: var(--win-gray); padding: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #808080; }
+        /* 2. BOOT SPLASH LOGO */
+        #boot-splash { position: fixed; inset: 0; background: #fff; display: none; align-items: center; justify-content: center; z-index: 9500; flex-direction: column; }
 
-        /* GUI ELEMENTS */
-        #desktop-area { width: 100%; height: calc(100% - 30px); display: none; padding: 20px; }
-        .icon { width: 80px; text-align: center; cursor: var(--cursor-pointer); margin-bottom: 20px; }
-        .icon img { width: 32px; height: 32px; display: block; margin: 0 auto 5px; }
-        .icon span { color: white !important; text-shadow: 2px 2px #000; }
+        /* 3. LOGIN SCREEN */
+        #login-screen { position: fixed; inset: 0; background: var(--bg-teal); display: none; align-items: center; justify-content: center; z-index: 9000; }
+        .login-window { width: 380px; background: var(--win-gray); border: 3px outset #fff; padding: 2px; }
+        .title-bar { background: var(--win-blue); color: white !important; padding: 4px; display: flex; justify-content: space-between; }
+        .banner { background: linear-gradient(90deg, #000, #000080); height: 50px; border: 2px inset #888; margin: 4px; display: flex; align-items: center; padding-left: 10px; }
 
-        /* TASKBAR & START */
-        #taskbar { position: fixed; bottom: 0; width: 100%; height: 30px; background: var(--win-gray); border-top: 3px solid #fff; display: none; align-items: center; padding: 3px; z-index: 8000; }
-        #start-menu { position: absolute; bottom: 28px; left: 2px; width: 220px; background: var(--win-gray); border: 3px outset #fff; display: none; flex-direction: row; box-shadow: 3px 3px 0px #000; }
-        .start-sidebar { background: linear-gradient(0deg, #000080 0%, #1084d0 100%); width: 30px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; }
-        .start-sidebar span { transform: rotate(-90deg); color: #fff !important; white-space: nowrap; width: 150px; }
-        .start-items-box { flex: 1; padding: 3px; background: var(--win-gray); }
-        .start-item { padding: 8px; display: flex; align-items: center; gap: 10px; cursor: var(--cursor-pointer); }
+        /* 4. WELCOME & DID YOU KNOW */
+        #welcome-box { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; background: white; border: 3px outset #fff; z-index: 5000; box-shadow: 4px 4px 0 #000; }
+        .welcome-content { display: flex; min-height: 200px; }
+        .welcome-sidebar { width: 120px; border-right: 2px solid #c0c0c0; padding: 15px; text-align: center; }
+        .welcome-main { flex: 1; padding: 20px; }
+
+        /* 5. START MENU (UPPDATERAD) */
+        #start-menu { position: absolute; bottom: 28px; left: 2px; width: 200px; background: var(--win-gray); border: 3px outset #fff; display: none; box-shadow: 2px 2px 0 #000; }
+        .start-sidebar { background: linear-gradient(0deg, #000080, #1084d0); width: 25px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; }
+        .start-sidebar span { transform: rotate(-90deg); color: white !important; white-space: nowrap; width: 140px; }
+        .start-item { padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: var(--cursor-pointer); border-bottom: 1px solid #999; }
         .start-item:hover { background: var(--win-blue); color: white !important; }
         .start-item:hover span { color: white !important; }
-        
-        button { background: var(--win-gray); border: 3px outset #fff; padding: 5px; min-width: 70px; cursor: var(--cursor-pointer); }
-        button:active { border: 3px inset #fff; }
+
+        /* GENERAL */
+        #desktop { display: none; width: 100%; height: calc(100% - 30px); padding: 20px; background: var(--bg-teal); }
+        #taskbar { position: fixed; bottom: 0; width: 100%; height: 30px; background: var(--win-gray); border-top: 3px solid #fff; display: none; align-items: center; padding: 3px; z-index: 8000; }
+        button { background: var(--win-gray); border: 2px outset #fff; cursor: var(--cursor-pointer); }
     </style>
 </head>
 <body>
 
 <audio id="snd-startup" src="https://win98icons.alexmeub.com/sounds/startup.mp3"></audio>
 
+<div id="boot-terminal">
+    <div id="boot-lines"></div>
+</div>
+
+<div id="boot-splash">
+    <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" width="100">
+    <h1 style="font-size: 14px !important; margin-top: 20px;">Windows 97</h1>
+    <p style="font-size: 8px !important;">Starting 97 Corp OS...</p>
+</div>
+
 <div id="login-screen">
     <div class="login-window">
-        <div class="title-bar"><span style="color:white !important;">Enter Password</span></div>
-        <div class="banner"><div class="banner-text">Windows 97</div></div>
+        <div class="title-bar"><span style="color:white !important;">97 Corp Login</span></div>
+        <div class="banner"><span style="color:white !important; font-style: italic;">Windows 97</span></div>
         <div style="padding:15px;">
-            <div>User name:</div>
-            <div style="background:#fff; border:2px inset #808080; padding:5px; margin:10px 0;">Admin</div>
-            <div>Password:</div>
-            <input type="password" id="pass" style="width:100%; border:2px inset #fff; height:20px;">
-        </div>
-        <div style="display:flex; justify-content:flex-end; gap:5px; padding:10px;">
-            <button onclick="login()">OK</button>
+            <p>Username: <strong>Admin</strong></p>
+            <p>Password:</p>
+            <input type="password" id="p" style="width:100%; border:2px inset #fff; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span onclick="alert('Contact 97 Corp support.')" style="color:blue; text-decoration:underline; font-size:6px !important;">Don't have an account?</span>
+                <button onclick="finishLogin()">Sign In</button>
+            </div>
         </div>
     </div>
 </div>
 
-<div id="welcome-screen">
-    <div class="title-bar"><span style="color:white !important;">Welcome</span></div>
-    <div class="welcome-content">
-        <div class="welcome-sidebar">
-            <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" width="50">
+<div id="desktop">
+    <div id="welcome-box">
+        <div class="title-bar"><span style="color:white !important;">Welcome</span><span onclick="closeWelcome()" style="cursor:pointer;">[X]</span></div>
+        <div class="welcome-content">
+            <div class="welcome-sidebar"><img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" width="40"></div>
+            <div class="welcome-main">
+                <h2 style="color:var(--win-blue); font-size:12px !important;">Welcome!</h2>
+                <p style="font-weight:bold; margin:10px 0;">Did you know?</p>
+                <div id="tip-text" style="min-height:50px;">97 Corp is the future of computing.</div>
+                <button onclick="nextTip()">Next Tip</button>
+            </div>
         </div>
-        <div class="welcome-main">
-            <h1 style="color: #000080; font-style: italic; font-size: 14px !important;">Welcome</h1>
-            <p style="font-weight: bold; margin: 15px 0 10px 0;">Did you know...</p>
-            <div id="tip-area" style="min-height: 60px; line-height: 1.4;">That 97 Corp owns the rights to this entire OS?</div>
-            <button onclick="nextTip()" style="margin-top: 15px;">Next Tip</button>
+        <div style="background:var(--win-gray); padding:10px; display:flex; justify-content:flex-end;">
+            <button onclick="closeWelcome()">Close</button>
         </div>
-    </div>
-    <div class="welcome-footer">
-        <label><input type="checkbox" checked> Show on startup</label>
-        <button onclick="closeWelcome()">Close</button>
-    </div>
-</div>
-
-<div id="desktop-area">
-    <div class="icon">
-        <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png">
-        <span>My Computer</span>
     </div>
 </div>
 
 <div id="taskbar">
-    <button id="start-btn" onclick="toggleStart()" style="display:flex; align-items:center; gap:5px; height:24px;">
-        <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" width="16"> Start
+    <button onclick="toggleStart()" style="display:flex; align-items:center; gap:5px; height:24px; font-weight:bold; border:3px outset #fff;">
+        <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" width="14"> Start
     </button>
     
     <div id="start-menu">
-        <div class="start-sidebar"><span>Forsbo Windows 97</span></div>
-        <div class="start-items-box">
+        <div class="start-sidebar"><span>97 Corp Windows</span></div>
+        <div style="flex:1;">
+            <div class="start-item"><span>Windows Update</span></div>
+            <div style="height:2px; background:#888; margin:2px;"></div>
             <div class="start-item"><span>Programs</span></div>
             <div class="start-item"><span>Documents</span></div>
+            <div class="start-item"><span>Favorites</span></div>
             <div class="start-item"><span>Settings</span></div>
-            <div style="height:2px; background:#888; margin:5px;"></div>
+            <div class="start-item"><span>Find</span></div>
+            <div style="height:2px; background:#888; margin:2px;"></div>
             <div class="start-item" onclick="location.reload()"><span>Shut Down...</span></div>
         </div>
     </div>
-    <div id="clock" style="margin-left:auto; border:3px inset #fff; padding:3px 10px;">00:00</div>
 </div>
 
 <script>
-    const tips = [
-        "That 97 Corp owns the rights to this entire OS?",
-        "You can click the Start button to find programs!",
-        "97 Corp recommends a nap every 4 hours of coding.",
-        "Unauthorized copying of Windows 97 is strictly... well, impossible.",
-        "Your files are 100% safe (probably) with 97 Corp."
+    const bootLines = [
+        "97 CORP BIOS v1.0.97", "Check RAM... 640KB OK", "Loading HID.SYS...", 
+        "Starting 97Corp_Net.exe...", "Verifying Copyright © 97 Corp", "Starting Windows 97..."
     ];
-    let currentTip = 0;
+    let line = 0;
 
-    function login() {
-        document.getElementById('snd-startup').play().catch(()=>{});
+    // 1. BOOT SEQUENCE
+    function runBoot() {
+        if(line < bootLines.length) {
+            document.getElementById('boot-lines').innerHTML += bootLines[line] + "<br>";
+            line++;
+            setTimeout(runBoot, 400);
+        } else {
+            setTimeout(() => {
+                document.getElementById('boot-terminal').style.display = 'none';
+                document.getElementById('boot-splash').style.display = 'flex';
+                setTimeout(showLogin, 2000);
+            }, 1000);
+        }
+    }
+
+    function showLogin() {
+        document.getElementById('boot-splash').style.display = 'none';
+        document.getElementById('login-screen').style.display = 'flex';
+    }
+
+    function finishLogin() {
+        document.getElementById('snd-startup').play();
         document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('desktop-area').style.display = 'block';
+        document.getElementById('desktop').style.display = 'block';
         document.getElementById('taskbar').style.display = 'flex';
-        setTimeout(() => { document.getElementById('welcome-screen').style.display = 'block'; }, 800);
-        setInterval(updateClock, 1000);
+        setTimeout(() => { document.getElementById('welcome-box').style.display = 'block'; }, 1000);
     }
 
+    const tips = ["97 Corp is the future.", "Start menu is where it happens.", "Check your Documents often.", "Always Shut Down properly."];
+    let tIdx = 0;
     function nextTip() {
-        currentTip = (currentTip + 1) % tips.length;
-        document.getElementById('tip-area').innerText = tips[currentTip];
+        tIdx = (tIdx + 1) % tips.length;
+        document.getElementById('tip-text').innerText = tips[tIdx];
     }
 
-    function closeWelcome() { document.getElementById('welcome-screen').style.display = 'none'; }
+    function closeWelcome() { document.getElementById('welcome-box').style.display = 'none'; }
     function toggleStart() {
         const m = document.getElementById('start-menu');
-        m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+        m.style.display = (m.style.display === 'block') ? 'none' : 'block';
     }
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('clock').innerText = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
-    }
+
+    window.onload = runBoot;
 </script>
 
 </body>
