@@ -1,147 +1,101 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <title>Forsbo Windows 97 - 97 Corp Official</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        :root { 
-            --bg-teal: #008080; 
-            --win-gray: #c0c0c0; 
-            --win-blue: #000080; 
-            --cursor-default: url('https://win98icons.alexmeub.com/cursors/arrow.png'), default;
-            --cursor-pointer: url('https://win98icons.alexmeub.com/cursors/pointer.png'), pointer;
-        }
-
-        /* Pixel-stilen */
-        * { 
-            box-sizing: border-box; 
-            font-family: 'Press Start 2P', cursive !important; 
-            font-size: 8px !important; 
-            image-rendering: pixelated;
-            cursor: var(--cursor-default);
-            color: black;
-        }
-
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg-teal); overflow: hidden; }
-
-        /* LOGIN WINDOW */
-        #login-screen {
-            position: fixed; inset: 0; background: var(--bg-teal); 
-            display: flex; align-items: center; justify-content: center; z-index: 9999;
-        }
-        .login-window { width: 400px; background: var(--win-gray); border: 4px outset #fff; padding: 2px; }
-        .title-bar { background: var(--win-blue); color: white !important; padding: 5px; display: flex; justify-content: space-between; }
-        .banner { background: linear-gradient(135deg, #ffcc33 0%, #ff6600 100%); height: 60px; border: 2px inset #808080; margin: 4px; display: flex; align-items: center; padding-left: 15px; }
-        .banner-text { font-size: 16px !important; font-weight: bold; font-style: italic; text-shadow: 2px 2px #fff; }
-        .user-box { background: #fff; border: 2px inset #808080; height: 60px; margin: 10px 0; overflow-y: scroll; padding: 5px; }
-        input { width: 100%; border: 2px inset #fff; margin-top: 5px; height: 20px; outline: none; }
-        button { background: var(--win-gray); border: 3px outset #fff; padding: 5px; min-width: 70px; cursor: var(--cursor-pointer); }
-        button:active { border: 3px inset #fff; }
-
-        /* WELCOME WINDOW (Windows 98 Style) */
-        #welcome-screen {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 500px; background: white; border: 3px outset #fff; z-index: 5000; box-shadow: 4px 4px 0 #000;
-        }
-        .welcome-header { background: linear-gradient(90deg, #000080, #1084d0); color: white !important; padding: 5px; font-weight: bold; }
-        .welcome-content { display: flex; padding: 0; min-height: 250px; }
-        .welcome-sidebar { width: 150px; border-right: 2px solid #c0c0c0; padding: 20px; text-align: center; background: #fff; }
-        .welcome-main { flex: 1; padding: 30px; background: #fff; }
-        .welcome-footer { background: var(--win-gray); padding: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 2px solid #808080; }
-
-        /* DESKTOP & TASKBAR */
-        #desktop-area { width: 100%; height: calc(100% - 30px); display: none; padding: 20px; }
-        .icon { width: 80px; text-align: center; cursor: var(--cursor-pointer); margin-bottom: 20px; }
-        .icon img { width: 32px; height: 32px; display: block; margin: 0 auto 5px; }
-        .icon span { color: white !important; text-shadow: 2px 2px #000; }
-        #taskbar { position: fixed; bottom: 0; width: 100%; height: 30px; background: var(--win-gray); border-top: 3px solid #fff; display: none; align-items: center; padding: 3px; z-index: 8000; }
-        #start-menu { position: absolute; bottom: 28px; left: 2px; width: 220px; background: var(--win-gray); border: 3px outset #fff; display: none; z-index: 8100; box-shadow: 3px 3px 0px #000; }
-        #clock { margin-left: auto; border: 3px inset #fff; padding: 3px 10px; }
-    </style>
+<meta charset="UTF-8">
+<title>Windows 97</title>
+<style>
+body {
+  margin: 0;
+  background: #008080;
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+  user-select: none;
+}
+.desktop {
+  width: 100vw;
+  height: 100vh;
+  padding: 10px;
+}
+.icon {
+  width: 64px;
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+  cursor: default;
+}
+.icon img {
+  width: 32px;
+  height: 32px;
+}
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  width: 100%;
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  display: flex;
+  align-items: center;
+}
+.start {
+  margin-left: 5px;
+  padding: 5px 10px;
+  background: #c0c0c0;
+  border: 2px outset #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+.window {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  width: 300px;
+  background: #c0c0c0;
+  border: 2px outset #fff;
+}
+.titlebar {
+  background: navy;
+  color: white;
+  padding: 4px;
+  font-weight: bold;
+}
+.content {
+  padding: 10px;
+  font-size: 14px;
+}
+.hidden { display: none; }
+</style>
 </head>
 <body>
 
-<audio id="snd-startup" src="https://win98icons.alexmeub.com/sounds/startup.mp3"></audio>
-
-<div id="login-screen">
-    <div class="login-window">
-        <div class="title-bar"><span style="color:white !important;">97 Corp Login</span></div>
-        <div class="banner"><div class="banner-text">Windows 97</div></div>
-        <div style="padding:15px;">
-            <div>User name:</div>
-            <div class="user-box">Admin (97 Corp)</div>
-            <div style="margin-top:10px;">Password:</div>
-            <input type="password" id="pass">
-        </div>
-        <div style="display:flex; justify-content:flex-end; gap:5px; padding:10px;">
-            <button onclick="login()">OK</button>
-        </div>
-    </div>
+<div class="desktop">
+  <div class="icon" ondblclick="openWin()">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Windows_98_icon.png">
+    <div>Datorn</div>
+  </div>
 </div>
 
-<div id="welcome-screen">
-    <div class="welcome-header"><span style="color:white !important;">Welcome</span></div>
-    <div class="welcome-content">
-        <div class="welcome-sidebar">
-            <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" width="60" style="margin-top:20px;">
-            <p style="margin-top:40px; font-size:6px !important;">97 CORP™</p>
-        </div>
-        <div class="welcome-main">
-            <h1 style="color: #000080; font-style: italic; font-size: 14px !important;">Welcome</h1>
-            <p style="font-weight: bold; margin-top:20px;">Did you know?</p>
-            <p style="line-height: 1.6;">Forsbo Windows 97 is property of 97 Corp. Any unauthorized use is totally cool because you are the boss.</p>
-            <p style="margin-top:20px; color: blue; text-decoration: underline; cursor: var(--cursor-pointer);">> Take a tour</p>
-        </div>
-    </div>
-    <div class="welcome-footer">
-        <label style="font-size: 7px !important;"><input type="checkbox" checked> Show this screen next time</label>
-        <button onclick="closeWelcome()">Close</button>
-    </div>
+<div class="window hidden" id="win97">
+  <div class="titlebar">Windows 97</div>
+  <div class="content">
+    <p>Välkommen till <b>Windows 97</b></p>
+    <p>• 16 MB RAM (dröm)</p>
+    <p>• Internet Explorer-ish</p>
+    <p>• 100% nostalgia</p>
+    <button onclick="alert('Systemfel: för mycket swag')">OK</button>
+  </div>
 </div>
 
-<div id="desktop-area">
-    <div class="icon">
-        <img src="https://win98icons.alexmeub.com/icons/png/computer_explorer-4.png">
-        <span>My Computer</span>
-    </div>
-</div>
-
-<div id="taskbar">
-    <button id="start-btn" onclick="toggleStart()" style="display:flex; align-items:center; gap:5px;">
-        <img src="https://win98icons.alexmeub.com/icons/png/windows-0.png" width="16"> Start
-    </button>
-    <div id="clock">00:00</div>
+<div class="taskbar">
+  <div class="start" onclick="alert('Startmeny kommer i Windows 97 SE')">
+    Start
+  </div>
 </div>
 
 <script>
-    function login() {
-        document.getElementById('snd-startup').play().catch(()=>{});
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('desktop-area').style.display = 'block';
-        document.getElementById('taskbar').style.display = 'flex';
-        
-        // Öppna Welcome-rutan efter en liten delay för effekten
-        setTimeout(() => {
-            document.getElementById('welcome-screen').style.display = 'block';
-        }, 800);
-        
-        updateClock();
-        setInterval(updateClock, 1000);
-    }
-
-    function closeWelcome() {
-        document.getElementById('welcome-screen').style.display = 'none';
-    }
-
-    function toggleStart() {
-        alert("97 Corp Start Menu is coming in the next update!");
-    }
-
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('clock').innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    }
+function openWin() {
+  document.getElementById("win97").classList.remove("hidden");
+}
 </script>
 
 </body>
