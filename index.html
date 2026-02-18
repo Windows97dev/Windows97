@@ -1,121 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <title>Forsbo Windows 97 - 97 Corp</title>
+    <title>Windows 97 - © 97 Corp</title>
     <style>
-        :root {
-            --win-gray: #c0c0c0;
-            --win-blue: #000080;
-            --win-teal: #008080;
-        }
-        body, html {
-            margin: 0; padding: 0; height: 100%;
-            font-family: "Tahoma", sans-serif;
-            background-color: var(--win-teal);
-            overflow: hidden;
-        }
+        :root { --win-gray: #c0c0c0; --win-blue: #000080; --win-teal: #008080; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: "Tahoma", sans-serif; background-color: var(--win-teal); overflow: hidden; }
+        
+        /* GEMENSAMMA FÖNSTER */
+        .window { background: var(--win-gray); border: 2px outset #fff; box-shadow: 2px 2px 10px rgba(0,0,0,0.5); position: absolute; }
+        .title-bar { background: var(--win-blue); color: white; padding: 3px 6px; font-weight: bold; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .content { padding: 20px; }
+        button { background: var(--win-gray); border: 2px outset #fff; padding: 4px 12px; cursor: pointer; font-family: "Tahoma", sans-serif; }
+        button:active { border: 2px inset #fff; }
 
-        /* LOGIN SCREEN */
-        #login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--win-teal);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000;
-        }
-        .window {
-            background: var(--win-gray);
-            border: 2px outset #fff;
-            width: 350px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-        }
-        .title-bar {
-            background: var(--win-blue); color: white;
-            padding: 3px 5px; font-weight: bold; font-size: 13px;
-        }
-        .login-content { padding: 20px; }
+        /* LOGIN SKÄRM */
+        #login-screen { position: fixed; inset: 0; background: var(--win-teal); display: flex; justify-content: center; align-items: center; z-index: 2000; }
+        
+        /* VÄLKOMST-SEKVENS */
+        #welcome-sequence { display: none; position: fixed; inset: 0; background: #000; z-index: 1500; color: white; justify-content: center; align-items: center; text-align: center; }
 
         /* DESKTOP */
-        #desktop {
-            display: none; height: calc(100% - 30px);
-            padding: 20px;
+        #desktop { display: none; height: 100%; width: 100%; }
+        
+        /* START MENY */
+        #start-menu { 
+            display: none; position: fixed; bottom: 30px; left: 2px; 
+            width: 200px; background: var(--win-gray); border: 2px outset #fff; 
+            z-index: 1000; box-shadow: 2px 0 10px rgba(0,0,0,0.3);
         }
-        .icon {
-            width: 70px; text-align: center; color: white;
-            font-size: 11px; cursor: pointer; margin-bottom: 20px;
-        }
-        .icon-img {
-            width: 32px; height: 32px; background: #bbb;
-            margin: 0 auto 5px; border: 1px solid #000;
-        }
+        .start-sidebar { width: 25px; background: linear-gradient(to top, #000080, #1084d0); position: absolute; height: 100%; left: 0; bottom: 0; }
+        .start-item { padding: 10px 10px 10px 35px; cursor: pointer; font-size: 13px; border-bottom: 1px solid #888; }
+        .start-item:hover { background: var(--win-blue); color: white; }
 
         /* TASKBAR */
-        #taskbar {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            height: 30px; background: var(--win-gray);
-            border-top: 2px outset #fff;
-            display: flex; align-items: center; padding: 2px;
-            z-index: 500;
-        }
-        #start-btn {
-            font-weight: bold; height: 24px; display: flex;
-            align-items: center; padding: 0 10px; border: 2px outset #fff;
-            cursor: pointer;
-        }
-        #start-btn:active { border: 2px inset #fff; }
-        .clock {
-            margin-left: auto; padding: 0 10px;
-            border: 2px inset #fff; font-size: 12px;
-        }
+        #taskbar { position: fixed; bottom: 0; width: 100%; height: 30px; background: var(--win-gray); border-top: 2px outset #fff; display: flex; align-items: center; z-index: 1100; }
+        #start-btn { font-weight: bold; height: 22px; padding: 0 8px; border: 2px outset #fff; margin-left: 2px; display: flex; align-items: center; cursor: pointer; }
+        #start-btn.active { border: 2px inset #fff; background: #ddd; }
+        .clock { margin-left: auto; padding: 0 10px; border: 2px inset #fff; font-size: 11px; height: 20px; display: flex; align-items: center; margin-right: 5px; }
     </style>
 </head>
 <body>
 
 <div id="login-screen">
-    <div class="window">
-        <div class="title-bar">97 Corp Security Login</div>
-        <div class="login-content">
-            <h2 style="margin-top:0;">Windows 97</h2>
-            <p style="color: #800000; font-weight: bold;">PROPERTY OF 97 CORP</p>
-            <label>Password:</label><br>
-            <input type="password" style="width: 100%; margin-bottom: 10px;">
-            <button onclick="login()" style="width: 60px; float: right;">OK</button>
+    <div class="window" style="width: 320px;">
+        <div class="title-bar"><span>97 Corp - Sign In</span></div>
+        <div class="content">
+            <h2 style="margin: 0 0 15px 0;">Windows 97™</h2>
+            <label style="font-size:12px;">Username:</label><br>
+            <input type="text" style="width: 100%; margin-bottom: 10px;"><br>
+            <label style="font-size:12px;">Password:</label><br>
+            <input type="password" style="width: 100%;">
+            <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                <a href="#" onclick="alert('Contact 97 Corp Admin for a new account')" style="font-size:10px;">Don't have an account?</a>
+                <button onclick="startSequence()">Sign In</button>
+            </div>
         </div>
     </div>
 </div>
 
-<div id="desktop">
-    <div class="icon" onclick="alert('97 Corp Computer Access Denied')">
-        <div class="icon-img"></div>
-        My Computer
-    </div>
-    <div class="icon" onclick="alert('Recycle Bin is Empty')">
-        <div class="icon-img"></div>
-        Recycle Bin
-    </div>
+<div id="welcome-sequence">
+    <div id="sequence-text" style="font-size: 24px; font-weight: lighter;"></div>
 </div>
 
-<div id="taskbar">
-    <div id="start-btn" onclick="toggleStart()">Start</div>
-    <div style="margin-left: 10px; font-size: 11px;">97 Corp Edition</div>
-    <div class="clock" id="clock">12:00</div>
+<div id="desktop">
+    <div id="start-menu">
+        <div class="start-sidebar"></div>
+        <div class="start-item" onclick="alert('97 Corp Programs coming soon')">Programs</div>
+        <div class="start-item" onclick="alert('Documents Locked')">Documents</div>
+        <div class="start-item" onclick="alert('Settings v6.0')">Settings</div>
+        <div class="start-item" onclick="location.reload()">Shut Down...</div>
+    </div>
+
+    <div id="taskbar">
+        <div id="start-btn" onclick="toggleStart()">Start</div>
+        <div style="margin-left: 10px; font-size: 11px; color: #444;">97 Corp Professional</div>
+        <div class="clock" id="clock"></div>
+    </div>
 </div>
 
 <script>
-    function login() {
+    const msgs = ["Welcome!", "Did you know?", "97 Corp is the future.", "Loading your personal settings...", "Preparing Desktop..."];
+    let msgIndex = 0;
+
+    function startSequence() {
         document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('welcome-sequence').style.display = 'flex';
+        nextMessage();
+        // Här kan vi trigga ljudet i framtiden!
+    }
+
+    function nextMessage() {
+        if (msgIndex < msgs.length) {
+            document.getElementById('sequence-text').innerText = msgs[msgIndex];
+            msgIndex++;
+            setTimeout(nextMessage, 2000);
+        } else {
+            showDesktop();
+        }
+    }
+
+    function showDesktop() {
+        document.getElementById('welcome-sequence').style.display = 'none';
         document.getElementById('desktop').style.display = 'block';
         updateClock();
+        setInterval(updateClock, 1000);
     }
-    
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('clock').innerText = now.getHours() + ":" + String(now.getMinutes()).padStart(2, '0');
-    }
-    setInterval(updateClock, 1000);
 
     function toggleStart() {
-        alert("97 Corp Start Menu - Alpha 5.5");
+        const menu = document.getElementById('start-menu');
+        const btn = document.getElementById('start-btn');
+        const isOpen = menu.style.display === 'block';
+        menu.style.display = isOpen ? 'none' : 'block';
+        btn.classList.toggle('active');
+    }
+
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+    }
+
+    // Stäng startmenyn om man klickar på skrivbordet
+    document.getElementById('desktop').onclick = function(e) {
+        if (e.target.id !== 'start-btn') {
+            document.getElementById('start-menu').style.display = 'none';
+            document.getElementById('start-btn').classList.remove('active');
+        }
     }
 </script>
 
